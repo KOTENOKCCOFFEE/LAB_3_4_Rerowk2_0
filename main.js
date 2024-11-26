@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const newsContent = form.querySelector("#news-content");
     const newsLink = form.querySelector("#news-link");
 
-    const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+    const emailPattern = /^[a-zA-Z0-9](?:[a-zA-Z0-9._-]*[a-zA-Z0-9])?@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
     const numberPattern = /^\d+$/;
 
     if (email && !emailPattern.test(email.value)) {
