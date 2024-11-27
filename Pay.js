@@ -141,10 +141,29 @@ $(document).ready(function() {
 
   // Функция для проверки корректности email
   function isValidEmail(email) {
-    var regex = /^[a-zA-Z0-9](?:[a-zA-Z0-9._-]*[a-zA-Z0-9])?@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
-  }
+    // Регулярки для известных доменов
+    const knownPatterns = {
+      'mail.ru': /^[a-zA-Z0-9](?!.*[._-]{2})[a-zA-Z0-9._-]{1,28}[a-zA-Z0-9]@mail\.ru$/,
+      'yandex.ru': /^[a-zA-Z0-9](?!.*[.-]{2})[a-zA-Z0-9.-]{1,28}[a-zA-Z0-9]@yandex\.ru$/,
+      'gmail.com': /^[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9.]{1,28}[a-zA-Z0-9]@gmail\.com$/,
+      'vk.com': /^[a-zA-Z0-9]{1,30}@vk\.com$/,
+      'microsoft.com': /^[a-zA-Z0-9](?!.*[._-]{2})[a-zA-Z0-9._-]{1,28}[a-zA-Z0-9]@microsoft\.com$/
+    };
 
+    // Общая универсальная регулярка для неизвестных доменов
+    const generalPattern = /^[a-zA-Z0-9](?!.*[._-]{2})[a-zA-Z0-9._-]*[a-zA-Z0-9]@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Извлекаем домен из email
+    const domain = email.split('@')[1];
+
+    // Если домен совпадает с известным, используем строгую проверку
+    if (domain && knownPatterns[domain]) {
+      return knownPatterns[domain].test(email);
+    }
+
+    // Для остальных доменов используем обновлённую строгую регулярку
+    return generalPattern.test(email);
+  }
 
   function handleSuccess(message) {
     alert(message);
