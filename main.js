@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Валидация формы
   const forms = document.querySelectorAll("form");
   forms.forEach(form => {
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", function (e) {
       form.setAttribute('novalidate', true);
       if (!validateForm(form)) {
         e.preventDefault();
@@ -20,27 +20,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const newsContent = form.querySelector("#news-content");
     const newsLink = form.querySelector("#news-link");
 
-    // Регулярки для известных доменов
-    const knownPatterns = {
-      'mail.ru': /^[a-zA-Z0-9](?!.*[._-]{2})[a-zA-Z0-9._-]{1,28}[a-zA-Z0-9]@mail\.ru$/,
-      'yandex.ru': /^[a-zA-Z0-9](?!.*[.-]{2})[a-zA-Z0-9.-]{1,28}[a-zA-Z0-9]@yandex\.ru$/,
-      'gmail.com': /^[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9.]{1,28}[a-zA-Z0-9]@gmail\.com$/,
-      'vk.com': /^[a-zA-Z0-9]{1,30}@vk\.com$/,
-      'microsoft.com': /^[a-zA-Z0-9](?!.*[._-]{2})[a-zA-Z0-9._-]{1,28}[a-zA-Z0-9]@microsoft\.com$/
-    };
-
-    // Общая универсальная регулярка для неизвестных доменов
-    const generalPattern = /^[a-zA-Z0-9](?!.*[._-]{2})[a-zA-Z0-9._-]*[a-zA-Z0-9]@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    //Проверка почты
+    const emailPattern = /^[a-zA-Z](?!.*\.\.)[a-zA-Z0-9_.+-]*[a-zA-Z0-9]@[a-zA-Z0-9]+([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+$/;
 
     // Проверка email
     if (email) {
-      const domain = email.value.split('@')[1]; // Извлекаем домен
-      if (domain && knownPatterns[domain]) {
-        if (!knownPatterns[domain].test(email.value)) {
-          alert("Введите правильный email");
-          valid = false;
-        }
-      } else if (!generalPattern.test(email.value)) {
+      if (!emailPattern.test(email.value)) {
         alert("Введите правильный email");
         valid = false;
       }
@@ -79,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
     return valid;
   }
 
-// Ограничение длины номера телефона
+  // Ограничение длины номера телефона
   const numberInput = document.getElementById("number");
   if (numberInput) {
     numberInput.addEventListener("input", function () {
